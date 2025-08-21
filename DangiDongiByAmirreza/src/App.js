@@ -213,7 +213,9 @@ function App() {
               <ul>
                 {results.results.map((transaction, index) => (
                   <motion.li key={index} custom={index} variants={listItemVariants} initial="hidden" animate="visible" className="transaction-item">
-                    <span className="pays-money">{transaction.from}</span>
+                    <span className={`pays-money ${transaction.from.includes('(هر کدام)') ? 'unpaid-group-text' : ''}`}>
+                      {transaction.from}
+                    </span>
                     <span className="arrow"><FiArrowLeft /><span className="amount">{formatNumber(transaction.amount, currency)} {currency}</span></span>
                     <span className="gets-money">{transaction.to}</span>
                   </motion.li>
