@@ -266,5 +266,9 @@ body.light h1 span {
     font-size: 12px;
     padding: 5px 10px;
   }
+   .unpaid-group-text {
+	font-size: 0.9rem;
+	font-weight: 500;
+  }
 }
 /* --- Author: Amirreza https://github.com/amirsohly/ --- */
