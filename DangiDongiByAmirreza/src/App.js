@@ -173,7 +173,7 @@ function App() {
       </motion.div>
 
       <header className="App-header">
-        <h1><span>دَنگی</span> دُنگی</h1>
+        <h1><span>دَنگی</span> دونگی</h1>
         
         <motion.div className="card" variants={cardVariants} initial="hidden" animate="visible">
           <div className="form-row">
