@@ -3,10 +3,10 @@ A modern and beautiful web application for calculating and simplifying group exp
 
 🔗 Live Demo: [[Click Here](https://dangi-dongi.netlify.app/)]
 ## Dark Mode:
-<img width="1465" height="700" alt="Screenshot 2025-08-22 at 01 36 01" src="https://github.com/user-attachments/assets/96a2ebb7-ad1d-49c7-90a1-c0b250304be8" />
+<img width="954" height="524" alt="Screenshot 2025-12-05 at 08 49 41" src="https://github.com/user-attachments/assets/2bb87078-87e3-47d8-8d73-577220483946" />
 
 ## Light Mode:
-<img width="1465" height="680" alt="Screenshot 2025-08-22 at 01 36 16" src="https://github.com/user-attachments/assets/a9aa8e1c-90b1-4482-85f9-885745e1a40e" />
+<img width="956" height="556" alt="Screenshot 2025-12-05 at 08 49 31" src="https://github.com/user-attachments/assets/4c19ea5c-7c37-4beb-b193-38edf2475cce" />
 
 
 ## ✨ Features & Capabilities
