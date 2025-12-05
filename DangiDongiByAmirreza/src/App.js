@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiPlus, FiTrash2, FiUsers, FiTag, FiSun, FiMoon, FiLoader, FiArrowUpRight, FiArrowLeft } from 'react-icons/fi';
+import { FiPlus, FiTrash2, FiUsers, FiTag, FiSun, FiMoon, FiLoader, FiArrowUpRight, FiArrowRight } from 'react-icons/fi';
 import { FaCalculator } from 'react-icons/fa';
 import './App.css';
 
 // ===================================================================================
 // Author: Amirreza - https://github.com/amirsohly/
+// Note: Translated to English and LTR by AI. Default currency changed to Euro.
 // ===================================================================================
 const calculateDebts = (totalPeople, expenses) => {
   const totalCost = expenses.reduce((sum, exp) => sum + Number(exp.amount || 0), 0);
@@ -29,7 +30,8 @@ const calculateDebts = (totalPeople, expenses) => {
   const paidPeopleCount = Object.keys(balances).length;
   const unpaidPeopleCount = totalPeople - paidPeopleCount;
   if (unpaidPeopleCount > 0) {
-    const unpaidName = `${unpaidPeopleCount} نفر دیگر`;
+    // Original: `${unpaidPeopleCount} نفر دیگر` -> Translation: `${unpaidPeopleCount} Other people`
+    const unpaidName = `${unpaidPeopleCount} Other people`;
     balances[unpaidName] = -sharePerPerson;
   }
   
@@ -47,7 +49,8 @@ const calculateDebts = (totalPeople, expenses) => {
 
   debtors.forEach(([debtorName, debtorAmount]) => {
     transactions.push({
-      from: debtorName.includes("نفر دیگر") ? `${debtorName} (هر کدام)` : debtorName,
+      // Original check for "نفر دیگر" -> Translated check for "Other people"
+      from: debtorName.includes("Other people") ? `${debtorName} (Each)` : debtorName,
       to: mainCreditorName,
       amount: -debtorAmount,
     });
@@ -67,7 +70,8 @@ const calculateDebts = (totalPeople, expenses) => {
 
 function App() {
   const [totalPeople, setTotalPeople] = useState(6);
-  const [currency, setCurrency] = useState('تومان'); 
+  // Default currency changed from 'تومان' to 'Euro'
+  const [currency, setCurrency] = useState('Euro'); 
   const [expenses, setExpenses] = useState([
     { name: '', amount: '' },
     { name: '', amount: '' },
@@ -103,12 +107,14 @@ function App() {
     setError('');
     setResults(null);
     if (expenses.length === 0) {
-      setError('لطفاً حداقل یک هزینه را اضافه کنید.');
+      // Original: 'لطفاً حداقل یک هزینه را اضافه کنید.' -> Translated
+      setError('Please add at least one expense.');
       return;
     }
     const isAnyFieldEmpty = expenses.some(exp => exp.name.trim() === '' || exp.amount.toString().trim() === '');
     if (isAnyFieldEmpty) {
-      setError('لطفاً نام و مبلغ تمام ردیف‌ها را پر کنید.');
+      // Original: 'لطفاً نام و مبلغ تمام ردیف‌ها را پر کنید.' -> Translated
+      setError('Please fill in the name and amount for all expense rows.');
       return;
     }
     
@@ -124,13 +130,8 @@ function App() {
   const formatNumber = (num, currency) => {
     const number = Number(num);
     if (isNaN(number)) return '';
-    const options = { minimumFractionDigits: 0, maximumFractionDigits: 2 };
-    if (currency === 'تومان') {
-      options.maximumFractionDigits = 0;
-    } else {
-      options.minimumFractionDigits = 2;
-      options.maximumFractionDigits = 2;
-    }
+    const options = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+    // Removed Toman-specific formatting logic, assuming all English currencies use decimals
     return new Intl.NumberFormat('en-US', options).format(number);
   };
   
@@ -167,37 +168,54 @@ function App() {
           className="author-btn"
         >
           <FiArrowUpRight />
-          درباره من و نمونه‌کار -
-          Developer: Amirreza
+          Developer: Amirreza - About Me & Portfolio
         </a>
       </motion.div>
 
       <header className="App-header">
-        <h1><span>دَنگی</span> دُنگی</h1>
+        {/* Title Translation */}
+        <h1><span>Dangi</span> Dongi</h1>
         
         <motion.div className="card" variants={cardVariants} initial="hidden" animate="visible">
           <div className="form-row">
-            <div className="form-group"><label>تعداد کل افراد 👥</label><input type="number" value={totalPeople} onChange={(e) => setTotalPeople(e.target.value)} min="1"/></div>
-            <div className="form-group"><label>واحد پول 💰</label><select value={currency} onChange={(e) => setCurrency(e.target.value)}><option value="تومان">تومان</option><option value="یورو">یورو (€)</option><option value="دلار">دلار ($)</option><option value="لیر">لیر (₺)</option></select></div>
+            {/* Keeping the order: Total People then Currency */}
+            <div className="form-group">
+                <label>Total People 👥</label>
+                <input type="number" value={totalPeople} onChange={(e) => setTotalPeople(e.target.value)} min="1"/>
+            </div>
+            <div className="form-group">
+                <label>Currency 💰</label>
+                <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+                    {/* Currency translations */}
+                    <option value="Toman">Toman</option>
+                    <option value="Euro">Euro (€)</option>
+                    <option value="Dollar">Dollar ($)</option>
+                    <option value="Lira">Lira (₺)</option>
+                </select>
+            </div>
           </div>
-          <h3>💸 هزینه‌ها:</h3>
+          {/* Section Heading Translation */}
+          <h3>💸 Expenses:</h3>
           <div style={{ maxHeight: '250px', overflowY: 'auto', padding: '0 5px' }}>
             <AnimatePresence>
               {expenses.map((expense, index) => (
                 <motion.div key={index} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -50 }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} className="input-with-icon expense-item">
                   <span className="icon"><FiUsers /></span>
-                  <input type="text" placeholder="نام خریدار" value={expense.name} onChange={(e) => handleExpenseChange(index, 'name', e.target.value)}/>
+                  {/* Placeholder Translation */}
+                  <input type="text" placeholder="Payer Name" value={expense.name} onChange={(e) => handleExpenseChange(index, 'name', e.target.value)}/>
                   <span className="icon"><FiTag /></span>
-                  <input type="text" inputMode="decimal" placeholder="مبلغ" value={expense.amount ? new Intl.NumberFormat('en-US').format(expense.amount) : ''} onChange={(e) => handleExpenseChange(index, 'amount', e.target.value)}/>
+                  {/* Placeholder Translation */}
+                  <input type="text" inputMode="decimal" placeholder="Amount" value={expense.amount ? new Intl.NumberFormat('en-US').format(expense.amount) : ''} onChange={(e) => handleExpenseChange(index, 'amount', e.target.value)}/>
                   <motion.button whileTap={{ scale: 0.8 }} className="remove-btn" onClick={() => handleRemoveExpense(index)}><FiTrash2 /></motion.button>
                 </motion.div>
               ))}
             </AnimatePresence>
           </div>
           <div className="button-group">
-            <button className="add-btn" onClick={handleAddExpense}><FiPlus /> افزودن خریدار</button>
+            {/* Button Translations */}
+            <button className="add-btn" onClick={handleAddExpense}><FiPlus /> Add Payer</button>
             <button onClick={handleCalculate} className="calculate-btn" disabled={isLoading}>
-              {isLoading ? <FiLoader className="spinner" /> : <><FaCalculator /> محاسبه کن</>}
+              {isLoading ? <FiLoader className="spinner" /> : <><FaCalculator /> Calculate</>}
             </button>
           </div>
         </motion.div>
@@ -206,18 +224,20 @@ function App() {
         <AnimatePresence>
           {results && (
             <motion.div className="card results" variants={cardVariants} initial="hidden" animate="visible" exit="hidden">
-              <h2>📊 خلاصه نتایج</h2>
-              <p><strong>هزینه کل:</strong> {formatNumber(results.totalCost, currency)} {currency}</p>
-              <p><strong>سهم هر نفر:</strong> {formatNumber(results.sharePerPerson, currency)} {currency}</p>
-              <h3 className="transactions-title">لیست پرداخت‌ها:</h3>
+              {/* Results Translations */}
+              <h2>📊 Results Summary</h2>
+              <p><strong>Total Cost:</strong> {formatNumber(results.totalCost, currency)} {currency}</p>
+              <p><strong>Share Per Person:</strong> {formatNumber(results.sharePerPerson, currency)} {currency}</p>
+              <h3 className="transactions-title">Payment Transactions:</h3>
               <ul>
                 {results.results.map((transaction, index) => (
                   <motion.li key={index} custom={index} variants={listItemVariants} initial="hidden" animate="visible" className="transaction-item">
-                    <span className={`pays-money ${transaction.from.includes('(هر کدام)') ? 'unpaid-group-text' : ''}`}>
+                    {/* Logic update for LTR and text translation */}
+                    <span className="gets-money">{transaction.to}</span>
+                    <span className="arrow"><FiArrowRight /><span className="amount">{formatNumber(transaction.amount, currency)} {currency}</span></span>
+                    <span className={`pays-money ${transaction.from.includes('(Each)') ? 'unpaid-group-text' : ''}`}>
                       {transaction.from}
                     </span>
-                    <span className="arrow"><FiArrowLeft /><span className="amount">{formatNumber(transaction.amount, currency)} {currency}</span></span>
-                    <span className="gets-money">{transaction.to}</span>
                   </motion.li>
                 ))}
               </ul>
