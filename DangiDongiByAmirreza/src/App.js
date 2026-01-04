@@ -233,9 +233,9 @@ function App() {
                 {results.results.map((transaction, index) => (
                   <motion.li key={index} custom={index} variants={listItemVariants} initial="hidden" animate="visible" className="transaction-item">
                     {/* Logic update for LTR and text translation */}
-                    <span className={`pays-money ${transaction.from.includes('(Each)') ? 'unpaid-group-text' : ''}`}>
-                    <span className="arrow"><FiArrowRight /><span className="amount">{formatNumber(transaction.amount, currency)} {currency}</span></span>
                     <span className="gets-money">{transaction.to}</span>
+                    <span className="arrow"><FiArrowRight /><span className="amount">{formatNumber(transaction.amount, currency)} {currency}</span></span>
+                    <span className={`pays-money ${transaction.from.includes('(Each)') ? 'unpaid-group-text' : ''}`}>
                       {transaction.from}
                     </span>
                   </motion.li>
