@@ -37,7 +37,7 @@ body {
 .theme-toggle-btn {
   position: fixed; top: 20px; right: 20px; background: var(--card-bg); color: var(--text-color);
   border: 1px solid var(--border-color); border-radius: 50%; width: 44px; height: 44px;
-  cursor: pointer; backdrop-filter: blur(10px); z-index: 1000; font-size: 1.2rem;
+  cursor: pointer; backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center;
 }
 
 h1 { text-align: center; font-size: 2.5rem; margin-bottom: 30px; }
@@ -53,24 +53,24 @@ h1 span { background: linear-gradient(45deg, var(--primary-color), var(--success
 .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--secondary-text-color); }
 
 .expense-list { max-height: 300px; overflow-y: auto; padding-right: 5px; }
-.expense-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; position: relative; }
+.expense-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 
-.input-with-icon { position: relative; }
-.input-with-icon .icon { position: absolute; left: 12px; top: 12px; color: var(--secondary-text-color); }
-.input-with-icon .icon-amount { position: absolute; left: 52%; top: 12px; color: var(--secondary-text-color); } /* تقریب برای آیکون دوم */
+.input-with-icon { position: relative; display: flex; align-items: center; }
+.input-with-icon .icon { position: absolute; left: 12px; color: var(--secondary-text-color); z-index: 1; }
 
 input, select {
   padding: 12px 12px 12px 35px; border-radius: 10px; border: 1px solid var(--border-color);
-  background: var(--input-bg); color: var(--text-color); width: 100%;
+  background: var(--input-bg); color: var(--text-color); width: 100%; font-family: inherit;
 }
 
 .button-group { display: flex; gap: 10px; margin-top: 20px; }
-button { padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+button { padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .calculate-btn { background: var(--primary-color); color: #000; flex: 2; }
 .add-btn { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); flex: 1; }
-.remove-btn { background: transparent; color: var(--secondary-text-color); font-size: 1.2rem; }
+.remove-btn { background: transparent; color: var(--secondary-text-color); font-size: 1.2rem; min-width: 40px; }
 .remove-btn:hover { color: #ff3b30; }
 
+/* --- Results Alignment --- */
 .transaction-item {
   display: grid;
   grid-template-columns: 1fr 100px 1fr;
@@ -80,14 +80,19 @@ button { padding: 12px; border-radius: 10px; border: none; font-weight: bold; cu
   border-bottom: 1px solid var(--border-color);
 }
 .payer-name { text-align: right; font-weight: 500; }
-.unpaid-group-text { text-align: right; font-size: 0.85rem; color: var(--secondary-text-color); }
+.unpaid-group-text { text-align: right; font-size: 0.85rem; color: var(--secondary-text-color); font-style: italic; }
 .gets-money { text-align: left; color: var(--success-color); font-weight: 700; }
 
 .arrow { display: flex; flex-direction: column; align-items: center; color: var(--secondary-text-color); }
 .arrow .amount { 
-  font-size: 0.75rem; background: var(--border-color); padding: 2px 8px; 
-  border-radius: 10px; margin-top: 4px; white-space: nowrap; 
+  font-size: 0.75rem; background: var(--input-bg); padding: 2px 8px; 
+  border: 1px solid var(--border-color); border-radius: 10px; margin-top: 4px; white-space: nowrap; 
 }
 
 .spinner { animation: spin 1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+@media (max-width: 480px) {
+  .transaction-item { grid-template-columns: 1fr 80px 1fr; font-size: 0.9rem; }
+  .form-row { flex-direction: column; }
+}
