@@ -176,6 +176,18 @@ function App() {
             </motion.div>
           )}
         </AnimatePresence>
+        <AnimatePresence>
+  {error && (
+    <motion.div 
+      style={{color: '#ff453a', marginTop: '10px', textAlign: 'center', fontWeight: 'bold'}}
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      exit={{ opacity: 0 }}
+    >
+      {error}
+    </motion.div>
+  )}
+</AnimatePresence>
       </header>
     </div>
   );
