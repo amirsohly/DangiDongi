@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiPlus, FiTrash2, FiUsers, FiTag, FiSun, FiMoon, FiLoader, FiArrowUpRight, FiArrowRight } from 'react-icons/fi';
+import { FiPlus, FiTrash2, FiUsers, FiTag, FiSun, FiMoon, FiLoader, FiArrowRight } from 'react-icons/fi';
 import { FaCalculator } from 'react-icons/fa';
 import './App.css';
 
-// ===================================================================================
-// Author: Amirreza - https://github.com/amirsohly/
-// ===================================================================================
 const calculateDebts = (totalPeople, expenses) => {
   const totalCost = expenses.reduce((sum, exp) => sum + Number(exp.amount || 0), 0);
   const sharePerPerson = totalPeople > 0 ? totalCost / totalPeople : 0;
-
   const balances = {};
   
   expenses.forEach(exp => {
     if (exp.name) {
-      if (!balances[exp.name]) {
-        balances[exp.name] = 0;
-      }
+      if (!balances[exp.name]) balances[exp.name] = 0;
       balances[exp.name] += Number(exp.amount || 0);
     }
   });
@@ -33,15 +27,14 @@ const calculateDebts = (totalPeople, expenses) => {
     balances[unpaidName] = -sharePerPerson;
   }
   
-  const creditors = Object.entries(balances).filter(([name, amount]) => amount > 0);
-  const debtors = Object.entries(balances).filter(([name, amount]) => amount < 0);
+  const creditors = Object.entries(balances).filter(([_, amount]) => amount > 0);
+  const debtors = Object.entries(balances).filter(([_, amount]) => amount < 0);
   
   if (creditors.length === 0 || debtors.length === 0) {
     return { totalCost, sharePerPerson, results: [] };
   }
 
   creditors.sort((a, b) => b[1] - a[1]);
-  
   const [mainCreditorName] = creditors[0];
   const transactions = [];
 
@@ -64,102 +57,63 @@ const calculateDebts = (totalPeople, expenses) => {
   return { totalCost, sharePerPerson, results: transactions };
 };
 
-
 function App() {
   const [totalPeople, setTotalPeople] = useState(6);
   const [currency, setCurrency] = useState('Euro'); 
-  const [expenses, setExpenses] = useState([
-    { name: '', amount: '' },
-    { name: '', amount: '' },
-  ]);
+  const [expenses, setExpenses] = useState([{ name: '', amount: '' }, { name: '', amount: '' }]);
   const [results, setResults] = useState(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
   useEffect(() => {
-    document.body.className = '';
-    document.body.classList.add(theme);
+    document.body.className = theme;
     localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
   const handleAddExpense = () => setExpenses([...expenses, { name: '', amount: '' }]);
   const handleRemoveExpense = (index) => setExpenses(expenses.filter((_, i) => i !== index));
+  
   const handleExpenseChange = (index, field, value) => {
     const newExpenses = [...expenses];
     if (field === 'amount') {
-      newExpenses[index][field] = value.replace(/[^0-9.]/g, '');
+      // اجازه ورود عدد و فقط یک نقطه برای اعشار
+      if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {
+        newExpenses[index][field] = value;
+      }
     } else {
       newExpenses[index][field] = value;
     }
     setExpenses(newExpenses);
   };
 
-  // ===================================================================================
-  // Author: Amirreza - https://github.com/amirsohly/
-  // ===================================================================================
   const handleCalculate = () => {
     setError('');
-    setResults(null);
-    if (expenses.length === 0) {
-      setError('Please add at least one expense.');
+    if (expenses.some(exp => exp.name.trim() === '' || exp.amount === '')) {
+      setError('Please fill in all fields.');
       return;
     }
-    const isAnyFieldEmpty = expenses.some(exp => exp.name.trim() === '' || exp.amount.toString().trim() === '');
-    if (isAnyFieldEmpty) {
-      setError('Please fill in the name and amount for all expense rows.');
-      return;
-    }
-    
     setIsLoading(true);
     setTimeout(() => {
-      const validExpenses = expenses.filter(exp => exp.name.trim() !== '' && exp.amount !== '' && !isNaN(parseFloat(exp.amount)));
-      const calculatedResults = calculateDebts(totalPeople, validExpenses);
-      setResults(calculatedResults);
+      setResults(calculateDebts(totalPeople, expenses));
       setIsLoading(false);
     }, 600);
   };
-  
-  const formatNumber = (num, currency) => {
-    const number = Number(num);
-    if (isNaN(number)) return '';
-    const options = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-    // Removed Toman-specific formatting logic, assuming all English currencies use decimals
-    return new Intl.NumberFormat('en-US', options).format(number);
-  };
-  
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.95, y: 20 },
-    visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
-  };
-  
-  const listItemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: i => ({ opacity: 1, x: 0, transition: { delay: i * 0.1 } }),
-  };
+
+  const formatNumber = (num) => new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(num);
 
   return (
     <div className="App">
       <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={toggleTheme} className="theme-toggle-btn">
-        <AnimatePresence mode="wait">
-          <motion.div key={theme} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}>
-            {theme === 'light' ? <FiMoon /> : <FiSun />}
-          </motion.div>
-        </AnimatePresence>
+        {theme === 'light' ? <FiMoon /> : <FiSun />}
       </motion.button>
 
-
-
-            
-
       <header className="App-header">
-        {/* Title Translation */}
         <h1><span>Dangi</span> Dongi</h1>
         
-        <motion.div className="card" variants={cardVariants} initial="hidden" animate="visible">
+        <div className="card">
           <div className="form-row">
-            {/* Keeping the order: Total People then Currency */}
             <div className="form-group">
                 <label>Total People 👥</label>
                 <input type="number" value={totalPeople} onChange={(e) => setTotalPeople(e.target.value)} min="1"/>
@@ -167,7 +121,6 @@ function App() {
             <div className="form-group">
                 <label>Currency 💰</label>
                 <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
-                    {/* Currency translations */}
                     <option value="Toman">Toman</option>
                     <option value="Euro">Euro (€)</option>
                     <option value="Dollar">Dollar ($)</option>
@@ -175,50 +128,49 @@ function App() {
                 </select>
             </div>
           </div>
-          {/* Section Heading Translation */}
           <h3>💸 Expenses:</h3>
-          <div style={{ maxHeight: '250px', overflowY: 'auto', padding: '0 5px' }}>
+          <div className="expense-list">
             <AnimatePresence>
               {expenses.map((expense, index) => (
-                <motion.div key={index} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -50 }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} className="input-with-icon expense-item">
-                  <span className="icon"><FiUsers /></span>
-                  {/* Placeholder Translation */}
-                  <input type="text" placeholder="Payer Name" value={expense.name} onChange={(e) => handleExpenseChange(index, 'name', e.target.value)}/>
-                  <span className="icon"><FiTag /></span>
-                  {/* Placeholder Translation */}
-                  <input type="text" inputMode="decimal" placeholder="Amount" value={expense.amount ? new Intl.NumberFormat('en-US').format(expense.amount) : ''} onChange={(e) => handleExpenseChange(index, 'amount', e.target.value)}/>
-                  <motion.button whileTap={{ scale: 0.8 }} className="remove-btn" onClick={() => handleRemoveExpense(index)}><FiTrash2 /></motion.button>
+                <motion.div key={index} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -50 }} className="expense-item">
+                  <div className="input-with-icon" style={{flex: 2}}>
+                    <span className="icon"><FiUsers /></span>
+                    <input type="text" placeholder="Payer Name" value={expense.name} onChange={(e) => handleExpenseChange(index, 'name', e.target.value)}/>
+                  </div>
+                  <div className="input-with-icon" style={{flex: 1.5}}>
+                    <span className="icon"><FiTag /></span>
+                    <input type="text" inputMode="decimal" placeholder="Amount" value={expense.amount} onChange={(e) => handleExpenseChange(index, 'amount', e.target.value)}/>
+                  </div>
+                  <button className="remove-btn" onClick={() => handleRemoveExpense(index)}><FiTrash2 /></button>
                 </motion.div>
               ))}
             </AnimatePresence>
           </div>
           <div className="button-group">
-            {/* Button Translations */}
             <button className="add-btn" onClick={handleAddExpense}><FiPlus /> Add Payer</button>
             <button onClick={handleCalculate} className="calculate-btn" disabled={isLoading}>
               {isLoading ? <FiLoader className="spinner" /> : <><FaCalculator /> Calculate</>}
             </button>
           </div>
-        </motion.div>
+        </div>
 
-        <AnimatePresence>{error && (<motion.div className="error" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>{error}</motion.div>)}</AnimatePresence>
         <AnimatePresence>
           {results && (
-            <motion.div className="card results" variants={cardVariants} initial="hidden" animate="visible" exit="hidden">
-              {/* Results Translations */}
+            <motion.div className="card results" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <h2>📊 Results Summary</h2>
-              <p><strong>Total Cost:</strong> {formatNumber(results.totalCost, currency)} {currency}</p>
-              <p><strong>Share Per Person:</strong> {formatNumber(results.sharePerPerson, currency)} {currency}</p>
+              <p><strong>Total Cost:</strong> {formatNumber(results.totalCost)} {currency}</p>
+              <p><strong>Share Per Person:</strong> {formatNumber(results.sharePerPerson)} {currency}</p>
               <h3 className="transactions-title">Payment Transactions:</h3>
               <ul>
-                {results.results.map((transaction, index) => (
-                  <motion.li key={index} custom={index} variants={listItemVariants} initial="hidden" animate="visible" className="transaction-item">
-                    {/* Logic update for LTR and text translation */}
-                    <span className={`pays-money ${transaction.from.includes('(Each)') ? 'unpaid-group-text' : ''}`}></span>
-                    {transaction.from}
-                    <span className="arrow"><FiArrowRight /><span className="amount">{formatNumber(transaction.amount, currency)} {currency}</span></span>
-                    <span className="gets-money">{transaction.to}</span>
-                  </motion.li>
+                {results.results.map((t, i) => (
+                  <li key={i} className="transaction-item">
+                    <span className={t.from.includes('(Each)') ? 'unpaid-group-text' : 'payer-name'}>{t.from}</span>
+                    <div className="arrow">
+                      <FiArrowRight />
+                      <span className="amount">{formatNumber(t.amount)} {currency}</span>
+                    </div>
+                    <span className="gets-money">{t.to}</span>
+                  </li>
                 ))}
               </ul>
             </motion.div>
