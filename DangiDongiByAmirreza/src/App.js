@@ -62,7 +62,7 @@ function App() {
   const [currency, setCurrency] = useState('Euro'); 
   const [expenses, setExpenses] = useState([{ name: '', amount: '' }, { name: '', amount: '' }]);
   const [results, setResults] = useState(null);
-  const [error, setError] = useState('');
+  const [ , setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
