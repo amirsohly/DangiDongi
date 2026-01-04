@@ -6,7 +6,6 @@ import './App.css';
 
 // ===================================================================================
 // Author: Amirreza - https://github.com/amirsohly/
-// Note: Translated to English and LTR by AI. Default currency changed to Euro.
 // ===================================================================================
 const calculateDebts = (totalPeople, expenses) => {
   const totalCost = expenses.reduce((sum, exp) => sum + Number(exp.amount || 0), 0);
