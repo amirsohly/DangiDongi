@@ -47,7 +47,6 @@ const calculateDebts = (totalPeople, expenses) => {
 
   debtors.forEach(([debtorName, debtorAmount]) => {
     transactions.push({
-      // Original check for "نفر دیگر" -> Translated check for "Other people"
       from: debtorName.includes("Other people") ? `${debtorName} (Each)` : debtorName,
       to: mainCreditorName,
       amount: -debtorAmount,
@@ -105,13 +104,11 @@ function App() {
     setError('');
     setResults(null);
     if (expenses.length === 0) {
-      // Original: 'لطفاً حداقل یک هزینه را اضافه کنید.' -> Translated
       setError('Please add at least one expense.');
       return;
     }
     const isAnyFieldEmpty = expenses.some(exp => exp.name.trim() === '' || exp.amount.toString().trim() === '');
     if (isAnyFieldEmpty) {
-      // Original: 'لطفاً نام و مبلغ تمام ردیف‌ها را پر کنید.' -> Translated
       setError('Please fill in the name and amount for all expense rows.');
       return;
     }
