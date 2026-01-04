@@ -5,29 +5,32 @@
   --success-color: #34c759;
   --background-start: #f2f2f7;
   --background-end: #d9d9e2;
-  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-bg: rgba(255, 255, 255, 0.9);
   --text-color: #1c1c1e;
   --secondary-text-color: #6e6e73;
   --border-color: rgba(0, 0, 0, 0.1);
   --input-bg: #ffffff;
+  --amount-bg: #f2f2f7;
 }
 
 body.dark {
   --primary-color: #60efff;
   --success-color: #30d158;
-  --background-start: #1d2128;
-  --background-end: #121212;
-  --card-bg: rgba(30, 30, 30, 0.7);
-  --text-color: #f5f5f7;
-  --secondary-text-color: #8d8d93;
-  --border-color: rgba(255, 255, 255, 0.15);
-  --input-bg: rgba(50, 50, 52, 0.8);
+  --background-start: #121212;
+  --background-end: #1d2128;
+  --card-bg: rgba(30, 30, 30, 0.95);
+  --text-color: #ffffff; /* متن کاملاً سفید برای خوانایی */
+  --secondary-text-color: #b0b0b8; /* روشن‌تر کردن متن ثانویه */
+  --border-color: rgba(255, 255, 255, 0.2);
+  --input-bg: rgba(45, 45, 48, 1);
+  --amount-bg: rgba(60, 60, 65, 1); /* رنگ پس‌زمینه مبلغ تراکنش */
 }
 
 body {
   margin: 0; font-family: 'Roboto', sans-serif; direction: ltr;
   background: linear-gradient(-45deg, var(--background-start), var(--background-end), #166c8b, #11866a);
   background-size: 400% 400%; animation: gradient 15s ease infinite; min-height: 100vh;
+  color: var(--text-color);
 }
 
 @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -40,59 +43,70 @@ body {
   cursor: pointer; backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center;
 }
 
-h1 { text-align: center; font-size: 2.5rem; margin-bottom: 30px; }
+h1 { text-align: center; font-size: 2.5rem; margin-bottom: 30px; color: var(--text-color); }
 h1 span { background: linear-gradient(45deg, var(--primary-color), var(--success-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 .card {
   background: var(--card-bg); padding: 24px; border-radius: 20px; border: 1px solid var(--border-color);
-  backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 20px;
+  backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 25px;
 }
 
-.form-row { display: flex; gap: 15px; margin-bottom: 20px; }
+/* فاصله دادن بین فیلدهای تعداد نفرات و واحد پول */
+.form-row { display: flex; gap: 25px; margin-bottom: 25px; }
 .form-group { flex: 1; }
-.form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--secondary-text-color); }
+.form-group label { display: block; margin-bottom: 10px; font-size: 0.95rem; font-weight: 500; color: var(--secondary-text-color); }
 
-.expense-list { max-height: 300px; overflow-y: auto; padding-right: 5px; }
-.expense-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.expense-list { max-height: 300px; overflow-y: auto; padding-right: 5px; margin-bottom: 15px; }
+.expense-item { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
 
 .input-with-icon { position: relative; display: flex; align-items: center; }
-.input-with-icon .icon { position: absolute; left: 12px; color: var(--secondary-text-color); z-index: 1; }
+.input-with-icon .icon { position: absolute; left: 12px; color: var(--primary-color); z-index: 1; opacity: 0.8; }
 
 input, select {
-  padding: 12px 12px 12px 35px; border-radius: 10px; border: 1px solid var(--border-color);
-  background: var(--input-bg); color: var(--text-color); width: 100%; font-family: inherit;
+  padding: 12px 12px 12px 38px; border-radius: 12px; border: 1px solid var(--border-color);
+  background: var(--input-bg); color: var(--text-color); width: 100%; font-family: inherit; font-size: 1rem;
+  transition: border-color 0.2s;
 }
+input:focus { border-color: var(--primary-color); outline: none; }
 
-.button-group { display: flex; gap: 10px; margin-top: 20px; }
-button { padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.calculate-btn { background: var(--primary-color); color: #000; flex: 2; }
-.add-btn { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); flex: 1; }
-.remove-btn { background: transparent; color: var(--secondary-text-color); font-size: 1.2rem; min-width: 40px; }
-.remove-btn:hover { color: #ff3b30; }
+.button-group { display: flex; gap: 15px; margin-top: 10px; }
+button { padding: 14px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1rem; }
+.calculate-btn { background: var(--primary-color); color: #000; flex: 2; box-shadow: 0 4px 15px rgba(96, 239, 255, 0.3); }
+.add-btn { background: transparent; border: 2px solid var(--primary-color); color: var(--primary-color); flex: 1; }
+.remove-btn { background: transparent; color: var(--secondary-text-color); font-size: 1.3rem; min-width: 45px; }
+.remove-btn:hover { color: #ff453a; }
 
-/* --- Results Alignment --- */
+.error-message { color: #ff453a; text-align: center; margin-top: 15px; font-weight: 500; }
+
+/* --- اصلاح خوانایی نتایج --- */
+.results h2 { color: var(--text-color); margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+.summary-details p { font-size: 1.1rem; margin: 10px 0; display: flex; justify-content: space-between; color: var(--secondary-text-color); }
+.summary-details p span { color: var(--text-color); font-weight: bold; }
+
+.transactions-title { margin-top: 25px; color: var(--secondary-text-color); font-size: 1rem; text-align: center; }
+
 .transaction-item {
   display: grid;
-  grid-template-columns: 1fr 100px 1fr;
+  grid-template-columns: 1fr 110px 1fr;
   align-items: center;
-  gap: 10px;
-  padding: 15px 0;
+  gap: 15px;
+  padding: 18px 0;
   border-bottom: 1px solid var(--border-color);
 }
-.payer-name { text-align: right; font-weight: 500; }
-.unpaid-group-text { text-align: right; font-size: 0.85rem; color: var(--secondary-text-color); font-style: italic; }
+.payer-name { text-align: right; font-weight: 500; color: var(--text-color); }
+.unpaid-group-text { text-align: right; font-size: 0.9rem; color: var(--secondary-text-color); font-style: italic; }
 .gets-money { text-align: left; color: var(--success-color); font-weight: 700; }
 
-.arrow { display: flex; flex-direction: column; align-items: center; color: var(--secondary-text-color); }
+.arrow { display: flex; flex-direction: column; align-items: center; color: var(--primary-color); }
 .arrow .amount { 
-  font-size: 0.75rem; background: var(--input-bg); padding: 2px 8px; 
-  border: 1px solid var(--border-color); border-radius: 10px; margin-top: 4px; white-space: nowrap; 
+  font-size: 0.8rem; background: var(--amount-bg); padding: 4px 10px; 
+  border: 1px solid var(--border-color); border-radius: 20px; margin-top: 6px; white-space: nowrap; color: var(--text-color);
 }
 
 .spinner { animation: spin 1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-@media (max-width: 480px) {
-  .transaction-item { grid-template-columns: 1fr 80px 1fr; font-size: 0.9rem; }
-  .form-row { flex-direction: column; }
+@media (max-width: 500px) {
+  .transaction-item { grid-template-columns: 1fr 90px 1fr; font-size: 0.85rem; }
+  .form-row { gap: 15px; }
 }
