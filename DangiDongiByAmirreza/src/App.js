@@ -29,7 +29,6 @@ const calculateDebts = (totalPeople, expenses) => {
   const paidPeopleCount = Object.keys(balances).length;
   const unpaidPeopleCount = totalPeople - paidPeopleCount;
   if (unpaidPeopleCount > 0) {
-    // Original: `${unpaidPeopleCount} نفر دیگر` -> Translation: `${unpaidPeopleCount} Other people`
     const unpaidName = `${unpaidPeopleCount} Other people`;
     balances[unpaidName] = -sharePerPerson;
   }
@@ -154,7 +153,7 @@ function App() {
         </AnimatePresence>
       </motion.button>
 
-      <motion.div 
+      /*<motion.div 
         className="author-box"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
@@ -169,7 +168,7 @@ function App() {
           <FiArrowUpRight />
           Developer: Amirreza - About Me & Portfolio
         </a>
-      </motion.div>
+      </motion.div>*/
 
       <header className="App-header">
         {/* Title Translation */}
