@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiPlus, FiTrash2, FiUsers, FiTag, FiSun, FiMoon, FiLoader, FiArrowUpRight, FiArrowRight } from 'react-icons/fi';
+import { FiPlus, FiTrash2, FiUsers, FiTag, FiSun, FiMoon, FiLoader, FiArrowUpRight, FiArrowLeft } from 'react-icons/fi';
 import { FaCalculator } from 'react-icons/fa';
 import './App.css';
 
@@ -234,7 +234,7 @@ function App() {
                   <motion.li key={index} custom={index} variants={listItemVariants} initial="hidden" animate="visible" className="transaction-item">
                     {/* Logic update for LTR and text translation */}
                     <span className="gets-money">{transaction.to}</span>
-                    <span className="arrow"><FiArrowRight /><span className="amount">{formatNumber(transaction.amount, currency)} {currency}</span></span>
+                    <span className="arrow"><FiArrowLeft /><span className="amount">{formatNumber(transaction.amount, currency)} {currency}</span></span>
                     <span className={`pays-money ${transaction.from.includes('(Each)') ? 'unpaid-group-text' : ''}`}>
                       {transaction.from}
                     </span>
