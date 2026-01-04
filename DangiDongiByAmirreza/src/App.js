@@ -62,7 +62,7 @@ function App() {
   const [currency, setCurrency] = useState('Euro'); 
   const [expenses, setExpenses] = useState([{ name: '', amount: '' }, { name: '', amount: '' }]);
   const [results, setResults] = useState(null);
-  const [ , setError] = useState('');
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
@@ -78,7 +78,6 @@ function App() {
   const handleExpenseChange = (index, field, value) => {
     const newExpenses = [...expenses];
     if (field === 'amount') {
-      // اجازه ورود عدد و فقط یک نقطه برای اعشار
       if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {
         newExpenses[index][field] = value;
       }
@@ -152,14 +151,23 @@ function App() {
               {isLoading ? <FiLoader className="spinner" /> : <><FaCalculator /> Calculate</>}
             </button>
           </div>
+          <AnimatePresence>
+            {error && (
+              <motion.div className="error-message" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                {error}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <AnimatePresence>
           {results && (
             <motion.div className="card results" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <h2>📊 Results Summary</h2>
-              <p><strong>Total Cost:</strong> {formatNumber(results.totalCost)} {currency}</p>
-              <p><strong>Share Per Person:</strong> {formatNumber(results.sharePerPerson)} {currency}</p>
+              <div className="summary-details">
+                <p><strong>Total Cost:</strong> <span>{formatNumber(results.totalCost)} {currency}</span></p>
+                <p><strong>Share Per Person:</strong> <span>{formatNumber(results.sharePerPerson)} {currency}</span></p>
+              </div>
               <h3 className="transactions-title">Payment Transactions:</h3>
               <ul>
                 {results.results.map((t, i) => (
@@ -176,18 +184,6 @@ function App() {
             </motion.div>
           )}
         </AnimatePresence>
-        <AnimatePresence>
-  {error && (
-    <motion.div 
-      style={{color: '#ff453a', marginTop: '10px', textAlign: 'center', fontWeight: 'bold'}}
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
-      exit={{ opacity: 0 }}
-    >
-      {error}
-    </motion.div>
-  )}
-</AnimatePresence>
       </header>
     </div>
   );
