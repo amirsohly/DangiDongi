@@ -67,7 +67,6 @@ const calculateDebts = (totalPeople, expenses) => {
 
 function App() {
   const [totalPeople, setTotalPeople] = useState(6);
-  // Default currency changed from 'تومان' to 'Euro'
   const [currency, setCurrency] = useState('Euro'); 
   const [expenses, setExpenses] = useState([
     { name: '', amount: '' },
@@ -150,22 +149,9 @@ function App() {
         </AnimatePresence>
       </motion.button>
 
-      <motion.div 
-        className="author-box"
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-      >
-        <a 
-          href="https://github.com/amirsohly"
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="author-btn"
-        >
-          <FiArrowUpRight />
-          //Developer: Amirreza - About Me & Portfolio
-        </a>
-      </motion.div>
+
+
+            
 
       <header className="App-header">
         {/* Title Translation */}
