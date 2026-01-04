@@ -1,286 +1,93 @@
-/* --- Author: Amirreza https://github.com/amirsohly/ --- */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap'); /* Changed font for better English compatibility */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap');
 
 :root, body.light {
-  --primary-glow: color-mix(in srgb, #007aff 30%, transparent);
   --primary-color: #007aff;
   --success-color: #34c759;
-  --danger-color: #ff3b30;
   --background-start: #f2f2f7;
   --background-end: #d9d9e2;
-  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-bg: rgba(255, 255, 255, 0.85);
   --text-color: #1c1c1e;
   --secondary-text-color: #6e6e73;
   --border-color: rgba(0, 0, 0, 0.1);
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --input-bg: rgba(255, 255, 255, 0.7);
+  --input-bg: #ffffff;
 }
 
 body.dark {
-  --primary-glow: color-mix(in srgb, #60efff 30%, transparent);
   --primary-color: #60efff;
   --success-color: #30d158;
-  --danger-color: #ff453a;
   --background-start: #1d2128;
   --background-end: #121212;
-  --card-bg: rgba(30, 28, 28, 0.6);
+  --card-bg: rgba(30, 30, 30, 0.7);
   --text-color: #f5f5f7;
   --secondary-text-color: #8d8d93;
   --border-color: rgba(255, 255, 255, 0.15);
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --input-bg: rgba(58, 58, 60, 0.6);
-}
-
-@keyframes gradient {
-	0% { background-position: 0% 50%; }
-	50% { background-position: 100% 50%; }
-	100% { background-position: 0% 50%; }
+  --input-bg: rgba(50, 50, 52, 0.8);
 }
 
 body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif; /* Changed font */
-  color: var(--text-color);
-  direction: ltr; /* Changed from rtl to ltr */
-  transition: background-color 0.5s, color 0.5s;
-  /* --- پس‌زمینه متحرک --- */
+  margin: 0; font-family: 'Roboto', sans-serif; direction: ltr;
   background: linear-gradient(-45deg, var(--background-start), var(--background-end), #166c8b, #11866a);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+  background-size: 400% 400%; animation: gradient 15s ease infinite; min-height: 100vh;
 }
 
-.App { max-width: 600px; margin: 40px auto; padding: 20px; position: relative; }
+@keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+.App { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
 
 .theme-toggle-btn {
-  /* Position changed from left: 20px to right: 20px */
-  position: fixed; top: 20px; right: 20px; left: auto; background: var(--card-bg); color: var(--text-color);
+  position: fixed; top: 20px; right: 20px; background: var(--card-bg); color: var(--text-color);
   border: 1px solid var(--border-color); border-radius: 50%; width: 44px; height: 44px;
-  display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 4px 12px var(--shadow-color);
-  transition: all 0.3s ease; z-index: 1000;
-  line-height: 0;
+  cursor: pointer; backdrop-filter: blur(10px); z-index: 1000; font-size: 1.2rem;
 }
-.theme-toggle-btn:hover { transform: scale(1.1) rotate(15deg); box-shadow: 0 8px 16px var(--shadow-color); }
 
-h1 {
-  font-weight: 800; text-align: center; margin-bottom: 30px; font-size: 2.5rem; letter-spacing: -1px;
-}
-h1 span {
-  background: linear-gradient(45deg, var(--primary-color), var(--success-color));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
+h1 { text-align: center; font-size: 2.5rem; margin-bottom: 30px; }
+h1 span { background: linear-gradient(45deg, var(--primary-color), var(--success-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 .card {
-  background: var(--card-bg); padding: 24px; border-radius: 20px; margin-bottom: 25px;
-  border: 1px solid var(--border-color); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px var(--shadow-color);
+  background: var(--card-bg); padding: 24px; border-radius: 20px; border: 1px solid var(--border-color);
+  backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 20px;
 }
 
-/* --- Author: Amirreza https://github.com/amirsohly/ --- */
-.form-row { display: flex; gap: 16px; align-items: flex-end; margin-bottom: 20px; }
-.form-row .form-group { flex: 1; margin-bottom: 0; }
-.form-group { position: relative; margin-bottom: 16px; }
-.form-group label { font-weight: 500; color: var(--secondary-text-color); margin-bottom: 8px; display: block; }
+.form-row { display: flex; gap: 15px; margin-bottom: 20px; }
+.form-group { flex: 1; }
+.form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--secondary-text-color); }
 
-.input-with-icon { position: relative; display: flex; align-items: center; gap: 12px;}
-.input-with-icon .icon { 
-    position: absolute; 
-    left: 15px; /* Changed from right: 15px */
-    right: auto;
-    color: var(--secondary-text-color); 
-}
+.expense-list { max-height: 300px; overflow-y: auto; padding-right: 5px; }
+.expense-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; position: relative; }
+
+.input-with-icon { position: relative; }
+.input-with-icon .icon { position: absolute; left: 12px; top: 12px; color: var(--secondary-text-color); }
+.input-with-icon .icon-amount { position: absolute; left: 52%; top: 12px; color: var(--secondary-text-color); } /* تقریب برای آیکون دوم */
 
 input, select {
-  width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid var(--border-color);
-  border-radius: 10px; font-size: 1rem; font-family: 'Roboto', sans-serif; /* Changed font */
-  background-color: var(--input-bg); color: var(--text-color); transition: all 0.2s ease;
-}
-/* Adjust padding for LTR: icon is on the left, so padding should be on the left */
-.input-with-icon input { padding-left: 40px; padding-right: 15px; } 
-
-input:focus, select:focus {
-  border-color: var(--primary-color); box-shadow: 0 0 0 4px var(--primary-glow); outline: none;
+  padding: 12px 12px 12px 35px; border-radius: 10px; border: 1px solid var(--border-color);
+  background: var(--input-bg); color: var(--text-color); width: 100%;
 }
 
-.button-group { display: flex; gap: 12px; margin-top: 20px; }
-button {
-  border: none; border-radius: 10px; cursor: pointer; font-size: 1rem; font-weight: 700;
-  font-family: 'Roboto', sans-serif; /* Changed font */
-  transition: all 0.2s ease-in-out; padding: 12px 18px;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
+.button-group { display: flex; gap: 10px; margin-top: 20px; }
+button { padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.calculate-btn { background: var(--primary-color); color: #000; flex: 2; }
+.add-btn { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); flex: 1; }
+.remove-btn { background: transparent; color: var(--secondary-text-color); font-size: 1.2rem; }
+.remove-btn:hover { color: #ff3b30; }
 
-.calculate-btn {
-  background: var(--primary-color); color: var(--background-end); flex-grow: 1;
-  box-shadow: 0 4px 15px color-mix(in srgb, var(--primary-color) 40%, transparent);
-}
-.calculate-btn:hover:not(:disabled) {
-  transform: translateY(-3px); box-shadow: 0 6px 20px color-mix(in srgb, var(--primary-color) 50%, transparent);
-}
-
-.add-btn {
-  background-color: transparent; color: var(--primary-color); border: 1px solid var(--primary-color);
-}
-.add-btn:hover { background-color: var(--primary-glow); }
-
-.remove-btn {
-  background-color: transparent; color: var(--secondary-text-color); padding: 5px; width: 32px;
-  height: 32px; border-radius: 40%;
-}
-.remove-btn:hover { background-color: var(--danger-color); color: white; }
-
-.results ul { list-style: none; padding: 0; margin-top: 20px; }
-.results li {
-  padding: 16px; border-bottom: 1px solid var(--border-color); display: flex;
-  justify-content: space-between; align-items: center; font-size: 1.1rem;
-  transition: background-color 0.2s ease;
-}
-.results li:hover { background-color: color-mix(in srgb, var(--primary-color) 5%, transparent); }
-.results li:last-child { border-bottom: none; }
-
-.gets-money { color: var(--success-color); font-weight: 700; }
-.pays-money { color: var(--danger-color); font-weight: 700; }
-
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-.spinner { animation: spin 1s linear infinite; }
-
-/* --- Author: Amirreza https://github.com/amirsohly/ --- */
-body.light h1 span {
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.transactions-title {
-  text-align: center;
-  margin-top: 24px;
-  margin-bottom: 8px;
-  color: var(--secondary-text-color);
-  font-weight: 500;
-}
-
-/* LTR adjustment: Reversing the grid to flow from left (payer) to right (receiver) */
 .transaction-item {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr 100px 1fr;
   align-items: center;
-  gap: 12px;
-  text-align: center;
+  gap: 10px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.payer-name { text-align: right; font-weight: 500; }
+.unpaid-group-text { text-align: right; font-size: 0.85rem; color: var(--secondary-text-color); }
+.gets-money { text-align: left; color: var(--success-color); font-weight: 700; }
+
+.arrow { display: flex; flex-direction: column; align-items: center; color: var(--secondary-text-color); }
+.arrow .amount { 
+  font-size: 0.75rem; background: var(--border-color); padding: 2px 8px; 
+  border-radius: 10px; margin-top: 4px; white-space: nowrap; 
 }
 
-/* LTR adjustment: Payer on the right, Receiver on the left */
-.transaction-item .pays-money {
-  text-align: left; /* Payer is on the right side of the LTR layout in App.js */
-}
-.transaction-item .gets-money {
-  text-align: right; /* Receiver is on the left side of the LTR layout in App.js */
-}
-
-.transaction-item .arrow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: var(--secondary-text-color);
-}
-
-.transaction-item .arrow .amount {
-  font-size: 0.8rem;
-  font-weight: 400;
-  background-color: var(--input-bg);
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-top: 2px;
-}
-
-/* --- استایل بخش نویسنده --- */
-.author-box {
-  position: fixed;
-  top: 20px;
-  /* Position changed from right: 20px to left: 20px */
-  left: 20px;
-  right: auto;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Changed from flex-end for LTR */
-  gap: 8px; 
-}
-
-.author-box p {
-  margin: 0;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--secondary-text-color);
-  background-color: var(--card-bg);
-  padding: 4px 10px;
-  border-radius: 12px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 2px 8px var(--shadow-color);
-  border: 1px solid var(--border-color);
-}
-.author1-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: var(--card-bg);
-  color: var(--secondary-text-color);
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 8px var(--shadow-color);
-  transition: all 0.2s ease-in-out;
-}
-.author1-btn:hover {
-  background-color: var(--primary-color);
-  color: rgb(0, 0, 0);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--shadow-color);
-}
-.author-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: var(--card-bg);
-  color: var(--secondary-text-color);
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 8px var(--shadow-color);
-  transition: all 0.2s ease-in-out;
-}
-
-/* --- Author: Amirreza https://github.com/amirsohly/ --- */
-
-.author-btn:hover {
-  background-color: var(--primary-color);
-  color: rgb(0, 0, 0);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--shadow-color);
-}
-
-.expense-item {
-  margin-bottom: 8px;
-}
-
-@media (max-width: 600px) {
-  .author-box p {
-    font-size: 12px;
-    padding: 3px 8px;
-  }
-
-  .author-btn {
-    margin-top: 7px;
-    font-size: 12px;
-    padding: 5px 10px;
-  }
-   .unpaid-group-text {
-	font-size: 14px;
-	font-weight: 500;
-  }
-}
-/* --- Author: Amirreza https://github.com/amirsohly/ --- */
+.spinner { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
