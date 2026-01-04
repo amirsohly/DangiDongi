@@ -153,7 +153,7 @@ function App() {
         </AnimatePresence>
       </motion.button>
 
-      /*<motion.div 
+      <motion.div 
         className="author-box"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
@@ -166,9 +166,9 @@ function App() {
           className="author-btn"
         >
           <FiArrowUpRight />
-          Developer: Amirreza - About Me & Portfolio
+          //Developer: Amirreza - About Me & Portfolio
         </a>
-      </motion.div>*/
+      </motion.div>
 
       <header className="App-header">
         {/* Title Translation */}
